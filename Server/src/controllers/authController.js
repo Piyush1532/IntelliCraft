@@ -1,6 +1,9 @@
 import userModel from "../Models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import tokenBlacklistModel from "../models/blackListModel.js";
+
+
 export const registerUser=async (req,res) => {
     try {
         // extract name,email,password
@@ -57,7 +60,6 @@ export const registerUser=async (req,res) => {
 }
 
 
-
 export const loginUser=async (req,res) => {
     try {
         const {email,password}=req.body
@@ -95,4 +97,15 @@ export const loginUser=async (req,res) => {
     } catch (error) {
         
     }
+}
+
+export const logoutUser=async (req,res)=>{
+const token=req.cookies.token
+
+if (token) {
+  await tokenBlacklistModel.create({token})
+}
+
+res.clearCookie("token")
+res.status(200).json({message:"User logged out successfully"})
 }
