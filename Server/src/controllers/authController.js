@@ -109,3 +109,15 @@ if (token) {
 res.clearCookie("token")
 res.status(200).json({message:"User logged out successfully"})
 }
+
+export const getmeUser =async (req,res) => {
+  const user = await userModel.findById(req.user.id)
+  res.status(200).json({
+    message:"User details fetched successfully",
+    user:{
+              id: user._id,
+          username: user.username,
+          email: user.email,
+    }
+  }) 
+}
