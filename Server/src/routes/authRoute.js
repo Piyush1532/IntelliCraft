@@ -1,5 +1,6 @@
 import express from "express"
-import { loginUser, logoutUser, registerUser } from "../controllers/authController.js"
+import { getmeUser, loginUser, logoutUser, registerUser } from "../controllers/authController.js"
+import { authUser } from "../middleware/authMiddleware.js"
 
 const authRouter=express.Router()
 
@@ -11,5 +12,9 @@ authRouter.post("/login",loginUser)
 
 // clear token from user cookie and add the token in the blacklist
 authRouter.get("/logout",logoutUser)
+
+//get current logged in user details
+
+authRouter.get("/get-me",authUser,getmeUser)
 
 export default authRouter
